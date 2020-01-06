@@ -5,27 +5,29 @@ import uuid from "uuid";
 class NewTodoForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { NewTodo: "" };
-    this.inputChange = this.inputChange.bind(this);
+    this.state = { task: "" };
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit(evt) {
     evt.preventDefault();
     const NewTodoItem = { ...this.state, id: uuid() };
-    this.props.showNewTodoItem(NewTodoItem);
-    this.setState({ NewTodo: "" });
+    this.props.createTodo(NewTodoItem);
+    this.setState({ task: "" });
   }
-  inputChange(evt) {
-    this.setState({ NewTodo: evt.target.value });
+  handleChange(evt) {
+    this.setState({ [evt.target.name]: evt.target.value });
   }
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor="newTodo">New Todo</label>
         <input
+          type="text"
           id="newTodo"
-          value={this.state.NewTodo}
-          onChange={this.inputChange}
+          name="task"
+          value={this.state.task}
+          onChange={this.handleChange}
         ></input>
         <button>ADD TODO</button>
       </form>
